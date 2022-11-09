@@ -1,4 +1,5 @@
 import time
+import numpy as np
 import random
 import multiprocessing
 from concurrent import futures
@@ -87,14 +88,18 @@ def main():
     print(time.time())
     randomList = []
     choice=-1
-    size = int(input("Enter the array size (>1) : "))
-    for i in range(0, size):
-        n = random.randint(1, 20000000)
-        randomList.append(n)
+    
 
     def Menu(choice):
         
         if choice==0:
+            randomList.clear()
+            fileName = input("Enter file name : ")
+            with open(fileName, 'r') as f:
+                for line in f.readlines():
+                    randomList.append(int(line))
+
+        if choice==1:
             randomList.clear()
             size = int(input("Enter the array size : "))
             for i in range(0, size):
@@ -103,11 +108,11 @@ def main():
 
             #Make copies of array for sorting
 
-        if choice==1:
+        if choice==2:
             print("Generate list (Size=%s) : " %len(randomList))
             print(randomList)
 
-        if choice==2:
+        if choice==3:
             startTime = time.time()
             print("Given array is processing in serial, please wait...", end="\n")
             sorted = mergeSort(randomList)
@@ -119,7 +124,7 @@ def main():
                 for listitem in sorted:
                     filehandler.write('%s\n' % listitem)
 
-        if choice==3:
+        if choice==4:
             startTime = time.time()
 
             print("Given array is processing in parallel, please wait...", end="\n")
@@ -132,17 +137,18 @@ def main():
                 for listitem in sorted:
                     filehandler.write('%s\n' % listitem)
 
-        if choice==4:
+        if choice==5:
             print("This machine have %s cores" %(multiprocessing.cpu_count()))
     
-    while choice!=5:
+    while choice!=6:
         print("\n\nWelcome, choose a choice from the MENU below :")
-        print("0 - Set new array size")
-        print("1 - View generated list")
-        print("2 - Do serial sorting")
-        print("3 - Do parallel sorting")
-        print("4 - See device core information")
-        print("5 - EXIT")
+        print("0 - Set external input .txt")
+        print("1 - Set new array size")
+        print("2 - View generated list")
+        print("3 - Do serial sorting")
+        print("4 - Do parallel sorting")
+        print("5 - See device core information")
+        print("6 - EXIT")
         choice = int(input("Your Choice : "))
         print("-----------------------------------\n")
         Menu(choice)
