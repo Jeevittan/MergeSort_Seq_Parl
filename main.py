@@ -1,12 +1,10 @@
 import time
-import numpy as np
 import random
 import multiprocessing
 from concurrent import futures
 
 
 def merge(L,R,arr):
-    #arr = arrFiller(L,R)
     i = j = k = 0
 
     # copy data into temporary array named L and R
@@ -103,7 +101,7 @@ def main():
             randomList.clear()
             size = int(input("Enter the array size : "))
             for i in range(0, size):
-                n = random.randint(1, 20000000)
+                n = random.randint(1, size*10)
                 randomList.append(n)
 
             #Make copies of array for sorting
@@ -116,11 +114,13 @@ def main():
             startTime = time.time()
             print("Given array is processing in serial, please wait...", end="\n")
             sorted = mergeSort(randomList)
+            endTime = time.time()
+            timeTaken = endTime - startTime
             print("Array is sorted, please check your dir for output file", end="\n")
-            print("Sorting done in %s seconds" % (time.time() - startTime))
+            print("Sorting done in %s seconds" % (timeTaken))
             with open('sortedList_Seq.txt', 'w') as filehandler:
                 filehandler.write('\nSorting Algorithm : Sequential Merge Sort')
-                filehandler.write('\nTime Taken :%s' %(time.time() - startTime))
+                filehandler.write('\nTime Taken :%s' %(timeTaken))
                 for listitem in sorted:
                     filehandler.write('%s\n' % listitem)
 
@@ -129,11 +129,13 @@ def main():
 
             print("Given array is processing in parallel, please wait...", end="\n")
             sorted = parallelMergeSort(randomList)
+            endTime = time.time()
+            timeTaken = endTime - startTime
             print("Array is sorted", end="\n")
-            print("Sorting done in %s seconds" % (time.time() - startTime))
+            print("Sorting done in %s seconds" % (timeTaken))
             with open('sortedList_Parl.txt', 'w') as filehandler:
                 filehandler.write('\nSorting Algorithm : Parallel Merge Sort')
-                filehandler.write('\nTime Taken :%s' %(time.time() - startTime))
+                filehandler.write('\nTime Taken :%s' %(timeTaken))
                 for listitem in sorted:
                     filehandler.write('%s\n' % listitem)
 
